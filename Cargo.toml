@@ -14,4 +14,4 @@ nng = "0.5.1"
 log = "0.4"
 nanoid = "0.3.0"
 
-v_onto = { path = "../v-onto" }
+v_onto = { git = "https://github.com/semantic-machines/v-common-onto.git" }
