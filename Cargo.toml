@@ -1,8 +1,10 @@
 [package]
-name = "v_api"
-version = "0.1.1"
+name = "v-common-api"
+version = "0.1.2"
 authors = ["itiu <ValeriyBushenev@gmail.com>"]
 edition = "2018"
+description = "common part of the veda platform"
+license     = "MIT"
 
 [lib]
 path = "src/api_client.rs"
@@ -14,4 +16,4 @@ nng = "0.5.1"
 log = "0.4"
 nanoid = "0.3.0"
 
-v_onto = { git = "https://github.com/semantic-machines/v-common-onto.git" }
+v_onto = { package = "v-common-onto", version = "0.1.1" }
