@@ -107,7 +107,7 @@ impl IndvOp {
             // ...
             IndvOp::None => "none",
         }
-        .to_string()
+            .to_string()
     }
 }
 
@@ -247,14 +247,14 @@ impl APIClient {
                 return OpResult::res(ResultCode::BadRequest);
             }
         } else {
-            return if let Some(res) = json["result"].as_i64() {
-                OpResult {
+            if let Some(res) = json["result"].as_i64() {
+                return OpResult {
                     result: ResultCode::from_i64(res),
                     op_id: 0,
-                }
+                };
             } else {
                 error!("api:update - not found \"data\"");
-                OpResult::res(ResultCode::BadRequest)
+                return OpResult::res(ResultCode::BadRequest);
             }
         }
 
