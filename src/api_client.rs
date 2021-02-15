@@ -11,6 +11,8 @@ use std::error::Error;
 use std::fmt;
 use v_onto::individual::Individual;
 
+pub use v_onto;
+
 #[derive(Debug)]
 pub struct ApiError {
     result: ResultCode,
@@ -107,7 +109,7 @@ impl IndvOp {
             // ...
             IndvOp::None => "none",
         }
-            .to_string()
+        .to_string()
     }
 }
 
@@ -247,15 +249,15 @@ impl APIClient {
                 return OpResult::res(ResultCode::BadRequest);
             }
         } else {
-            if let Some(res) = json["result"].as_i64() {
-                return OpResult {
+            return if let Some(res) = json["result"].as_i64() {
+                OpResult {
                     result: ResultCode::from_i64(res),
                     op_id: 0,
-                };
+                }
             } else {
                 error!("api:update - not found \"data\"");
-                return OpResult::res(ResultCode::BadRequest);
-            }
+                OpResult::res(ResultCode::BadRequest)
+            };
         }
 
         OpResult::res(ResultCode::BadRequest)
