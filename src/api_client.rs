@@ -13,6 +13,8 @@ use v_onto::individual::Individual;
 
 pub use v_onto;
 
+pub const ALL_MODULES: i64 = 0;
+
 #[derive(Debug)]
 pub struct ApiError {
     result: ResultCode,
@@ -159,11 +161,11 @@ impl APIClient {
     }
 
     pub fn update(&mut self, ticket: &str, cmd: IndvOp, indv: &Individual) -> OpResult {
-        self.update_with_event(ticket, "", "", cmd, indv)
+        self.update_use_param(ticket, "", "", ALL_MODULES, cmd, indv)
     }
 
     pub fn update_or_err(&mut self, ticket: &str, event_id: &str, src: &str, cmd: IndvOp, indv: &Individual) -> Result<OpResult, ApiError> {
-        let res = self.update_with_event(ticket, event_id, src, cmd, indv);
+        let res = self.update_use_param(ticket, event_id, src, ALL_MODULES, cmd, indv);
         if res.result == ResultCode::Ok {
             Ok(res)
         } else {
@@ -174,7 +176,7 @@ impl APIClient {
         }
     }
 
-    pub fn update_with_event(&mut self, ticket: &str, event_id: &str, src: &str, cmd: IndvOp, indv: &Individual) -> OpResult {
+    pub fn update_use_param(&mut self, ticket: &str, event_id: &str, src: &str, assigned_subsystems: i64, cmd: IndvOp, indv: &Individual) -> OpResult {
         if !self.is_ready {
             self.connect();
         }
@@ -187,7 +189,7 @@ impl APIClient {
             "function": cmd.as_string(),
             "ticket": ticket,
             "individuals": [ indv.get_obj().as_json() ],
-            "assigned_subsystems": 0,
+            "assigned_subsystems": assigned_subsystems,
             "event_id" : event_id,
             "src" : src
         });
