@@ -11,6 +11,8 @@ use std::error::Error;
 use std::fmt;
 use v_onto::individual::Individual;
 
+use nng::options::{Options, RecvTimeout, SendTimeout};
+use std::time::Duration;
 pub use v_onto;
 
 pub const ALL_MODULES: i64 = 0;
@@ -156,6 +158,13 @@ impl APIClient {
         } else {
             info!("success connect to main module, [{}]", self.addr);
             self.is_ready = true;
+
+            if let Err(e) = self.client.set_opt::<RecvTimeout>(Some(Duration::from_secs(30))) {
+                error!("fail set recv timeout, err={}", e);
+            }
+            if let Err(e) = self.client.set_opt::<SendTimeout>(Some(Duration::from_secs(30))) {
+                error!("fail set send timeout, err={}", e);
+            }
         }
         self.is_ready
     }
