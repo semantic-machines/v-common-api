@@ -1,6 +1,6 @@
 [package]
 name = "v-common-api"
-version = "0.1.5"
+version = "0.1.9"
 authors = ["itiu <ValeriyBushenev@gmail.com>"]
 edition = "2018"
 description = "common part of the veda platform"
@@ -17,3 +17,4 @@ log = "0.4"
 nanoid = "0.3.0"
 
 v_onto = { package = "v-common-onto", path = "../v-common-onto" }
+
